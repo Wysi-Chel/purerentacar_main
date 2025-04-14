@@ -1,0 +1,16 @@
+{
+    "web": {
+        "client_id": "512750139884-b2j0vkka61rqcba3gsjku83ulqnqkmmh.apps.googleusercontent.com",
+        "project_id": "total-amulet-454118-n4",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret": "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",
+        "redirect_uris": [
+            "http://localhost/purerentacar/google_callback.php"
+        ],  
+        "javascript_origins": [
+            "http://localhost"
+        ]
+    }
+}
