@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if (empty($error)) {
         // Insert the main car record including new fields (daily_rate, weekly_rate)
-        $stmt = $conn->prepare("INSERT INTO gigcars (make, model, year, category, status, gigcar_dispimage, seaters, num_doors, runs_on_gas, mpg, daily_rate, weekly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO gigcars (make, model,   , category, status, gigcar_dispimage, seaters, num_doors, runs_on_gas, mpg, daily_rate, weekly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssisssiisddd", $make, $model, $year, $category, $status, $uploadFile, $seaters, $num_doors, $runs_on_gas, $mpg, $daily_rate, $weekly_rate);
         
         if ($stmt->execute()) {
