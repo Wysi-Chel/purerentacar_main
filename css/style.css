@@ -53,6 +53,13 @@
 
 
 /* ================================================== */
+html, body {
+   overflow: scroll;
+}
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
 
 html {
     overflow-x: hidden;
@@ -61,7 +68,9 @@ html {
     background: #ffffff;
 }
 
-body {    
+body {   
+    -ms-overflow-style: none;
+    scrollbar-width: none; 
     font-family: var(--body-font);
     font-size: 16px;
     font-weight: 400;
@@ -1650,6 +1659,7 @@ header.header-light .logo-2 {
 
 #topbar.topbar-dark{
     background: #121212;
+    position: fixed;
 }
 
 #topbar a {
@@ -12251,11 +12261,19 @@ input[type="range"]::-moz-range-thumb {
 
 
 .d-flex {
-  display: flex;
-  white-space: nowrap;
-  
+  display: flex !important;
+  /* white-space: nowrap; */
 }
 
+#topbar-marquee.fixed-topbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
+    background: #121212;
+}
 .de-marquee-list {
   display: flex;
   align-items: top;
@@ -12263,6 +12281,9 @@ input[type="range"]::-moz-range-thumb {
   animation: loop 40s infinite linear;
 }
 
+.de-marquee-list .d-item {
+    white-space: nowrap;
+}
 .de-marquee-list .d-item-txt{
   font-size: 30px;
   line-height: 30px;
@@ -12295,7 +12316,7 @@ input[type="range"]::-moz-range-thumb {
   margin: 0 100px;
   padding: 2px;
   display: inline-block;
-  transform: translateY(50px);
+  transform: translateY(-8px);
   background:#333333;
 }
 
@@ -17490,7 +17511,7 @@ img {
     }
 
     .scroll-down {
-        margin-top:0;
+        margin-top: 0;
     }
 
     .scroll-up {

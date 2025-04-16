@@ -41,7 +41,7 @@
                         <div class="widget">
                             <h5>Social Network</h5>
                             <div class="social-icons">
-                                <a href="#"><i class="fa fa-facebook fa-lg"></i></a>
+                                <a href=""><i class="fa fa-facebook fa-lg"></i></a>
                                 <a href="#"><i class="fa fa-twitter fa-lg"></i></a>
                                 <a href="#"><i class="fa fa-linkedin fa-lg"></i></a>
                                 <a href="#"><i class="fa fa-pinterest fa-lg"></i></a>
@@ -62,8 +62,8 @@
                                     </a>
                                 </div>
                                 <ul class="menu-simple">
-                                    <li><a href="#">Terms &amp; Conditions</a></li>
-                                    <li><a href="#">Privacy Policy</a></li>
+                                    <li><a href="terms_conditions.php">Terms of Service</a></li>
+                                    <li><a href="privacy-policy.php">Privacy Policy</a></li>
                                 </ul>
                             </div>
                         </div>

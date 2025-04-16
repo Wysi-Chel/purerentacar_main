@@ -28,7 +28,8 @@ if ($result_addImage && $result_addImage->num_rows > 0) {
 $daily_rate = (!empty($car['daily_rate'])) ? $car['daily_rate'] : "N/A";
 
 // Function to generate options for half‑hour increments
-function generateTimeOptions() {
+function generateTimeOptions()
+{
     $options = "";
     for ($hour = 0; $hour < 24; $hour++) {
         for ($minute = 0; $minute < 60; $minute += 30) {
@@ -41,6 +42,7 @@ function generateTimeOptions() {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="stylesheet" href="css/calendar.css">
     <title>Car Details - <?php echo $car['make'] . " " . $car['model']; ?></title>
@@ -55,6 +57,7 @@ function generateTimeOptions() {
         }
     </style>
 </head>
+
 <body>
     <div id="wrapper">
         <?php include 'header.php'; ?>
@@ -126,10 +129,10 @@ function generateTimeOptions() {
                                 <span class="d-value"><?php echo $car['year']; ?></span>
                             </div>
                             <?php if (trim(strtolower($car['runs_on_gas'])) !== 'battery'): ?>
-                            <div class="d-row">
-                                <span class="d-title">MPG</span>
-                                <span class="d-value"><?php echo sprintf('%g', $car['mpg']); ?></span>
-                            </div>
+                                <div class="d-row">
+                                    <span class="d-title">MPG</span>
+                                    <span class="d-value"><?php echo sprintf('%g', $car['mpg']); ?></span>
+                                </div>
                             <?php endif; ?>
                         </div>
                         <div class="spacer-single"></div>
@@ -146,37 +149,37 @@ function generateTimeOptions() {
                             <div id="calendar" class="calendar">
                                 <div class="calendar__opts">
                                     <select name="calendar__month" id="calendar__month">
-                                    <option selected>Jan</option>
-                                    <option>Feb</option>
-                                    <option>Mar</option>
-                                    <option>Apr</option>
-                                    <option>May</option>
-                                    <option>Jun</option>
-                                    <option>Jul</option>
-                                    <option>Aug</option>
-                                    <option>Sep</option>
-                                    <option>Oct</option>
-                                    <option>Nov</option>
-                                    <option>Dec</option>
+                                        <option selected>Jan</option>
+                                        <option>Feb</option>
+                                        <option>Mar</option>
+                                        <option>Apr</option>
+                                        <option>May</option>
+                                        <option>Jun</option>
+                                        <option>Jul</option>
+                                        <option>Aug</option>
+                                        <option>Sep</option>
+                                        <option>Oct</option>
+                                        <option>Nov</option>
+                                        <option>Dec</option>
                                     </select>
 
                                     <select name="calendar__year" id="calendar__year">
-                                    <option selected>2025</option>
-                                    <option>2026</option>
-                                    <option>2027</option>
-                                    <option>2028</option>
+                                        <option selected>2025</option>
+                                        <option>2026</option>
+                                        <option>2027</option>
+                                        <option>2028</option>
                                     </select>
                                 </div>
 
                                 <div class="calendar__body">
                                     <div class="calendar__days">
-                                    <div>S</div>
-                                    <div>M</div>
-                                    <div>T</div>
-                                    <div>W</div>
-                                    <div>T</div>
-                                    <div>F</div>
-                                    <div>S</div>
+                                        <div>S</div>
+                                        <div>M</div>
+                                        <div>T</div>
+                                        <div>W</div>
+                                        <div>T</div>
+                                        <div>F</div>
+                                        <div>S</div>
 
                                     </div>
 
@@ -184,280 +187,291 @@ function generateTimeOptions() {
                                     </div>
                                 </div>
 
-                                    <div class="calendar__buttons">
-                                        <button class="calendar__button calendar__button--grey" id="calendar__back">Back</button>
-                                        <button class="calendar__button calendar__button--primary" id="calendar__apply">Book Now</button>
+                                <div class="calendar__buttons">
+                                    <button class="btn-main" id="calendar__back">Back</button>
+                                    <button class="btn-main" id="calendar__apply" data-bs-target="#staticBackdrop" data-bs-toggle="modal">Book Now</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="staticBackdropLabel">Enter your booking details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Hidden fields for car and user id -->
+                                                    <input type="hidden" name="car_id" value="<?php echo $car_id; ?>">
+                                                    <input type="hidden" name="user_id" value="1">
+                                                    <input type="hidden" name="pickup_date" id="pickup_date">
+                                                    <input type="hidden" name="return_date" id="return_date">
+
+                                                    <div class="mb-3">
+                                                        <label for="first_name" class="form-label">First Name:</label>
+                                                        <input type="text" class="form-control" name="first_name" id="first_name" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="last_name" class="form-label">Last Name</label>
+                                                        <input type="text" class="form-control" name="last_name" id="last_name" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" name="email" id="email" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="phone" class="form-label">Phone</label>
+                                                        <input type="tel" class="form-control" name="phone" id="phone" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="PickUpDateModal" class="form-label">Pick Up Date</label>
+                                                        <input type="date" class="form-control" name="PickUpDate" id="PickUpDateModal" required readonly>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="pickup_time_modal" class="form-label">Pick Up Time</label>
+                                                        <div class="input-group">
+                                                            <select class="form-select" id="pickup_time_modal" name="pickup_time" required>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="mb-3">
+                                                        <label for="ReturnDateModal" class="form-label">Return Date</label>
+                                                        <input type="date" class="form-control" name="ReturnDate" id="ReturnDateModal" required readonly>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="return_time_modal" class="form-label">Return Time</label>
+                                                        <div class="input-group">
+                                                            <select class="form-select" id="return_time_modal" name="return_time" required>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="license" class="form-label">Upload Driver's License</label>
+                                                        <input type="file" class="form-control" name="license" id="license" accept=".jpg, .jpeg, .png, .pdf" required>
+                                                        <small class="form-text text-muted">Accepted formats: .jpg, .jpeg, .png, .pdf</small>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="insurance_card" class="form-label">Upload Insurance Card</label>
+                                                        <input type="file" class="form-control" name="insurance_card" id="insurance_card" accept=".jpg, .jpeg, .png, .pdf" required>
+                                                        <small class="form-text text-muted">Accepted formats: .jpg, .jpeg, .png, .pdf</small>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn-main" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn-main">Confirm Booking</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
                             </div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-        <!-- Car Details Section End -->
+                <!-- Car Details Section End -->
 
-        <!-- Content close -->
-        <a href="#" id="back-to-top"></a>
-    </div>
-
-        <!-- Booking Modal -->
-        <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <form action="process_booking.php" method="post" id="bookingModalForm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="bookingModalLabel">Enter Your Booking Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Hidden fields for car and user id -->
-                            <input type="hidden" name="car_id" value="<?php echo $car_id; ?>">
-                            <input type="hidden" name="user_id" value="1">
-                            <input type="hidden" name="pickup_date" id="pickup_date">
-                            <input type="hidden" name="return_date" id="return_date">
-                            
-                            <div class="mb-3">
-                                <label for="first_name" class="form-label">First Name:</label>
-                                <input type="text" class="form-control" name="first_name" id="first_name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="last_name" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="last_name" id="last_name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="tel" class="form-control" name="phone" id="phone" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="PickUpDateModal" class="form-label">Pick Up Date</label>
-                                <input type="date" class="form-control" name="PickUpDate" id="PickUpDateModal" required readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="pickup_time_modal" class="form-label">Pick Up Time</label>
-                                <div class="input-group">
-                                    <select class="form-select" id="pickup_time_modal" name="pickup_time" required>
-                                    </select>
-                                </div>
-                            </div>
-                            
-
-                            <div class="mb-3">
-                                <label for="ReturnDateModal" class="form-label">Return Date</label>
-                                <input type="date" class="form-control" name="ReturnDate" id="ReturnDateModal" required readonly>
-                            </div>
-                            <div class="mb-3">
-                                <label for="return_time_modal" class="form-label">Return Time</label>
-                                <div class="input-group">
-                                    <select class="form-select" id="return_time_modal" name="return_time" required>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Confirm Booking</button>
-                        </div>
-                    </div>
-                </form>
+                <!-- Content close -->
+                <a href="#" id="back-to-top"></a>
             </div>
-        </div>
 
-
-    <!-- Javascript Files -->
-    <script src="js/plugins.js"></script>
-    <script src="js/designesia.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.0/main.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const car_id = <?php echo $car_id; ?>; 
-            const calendarDates = document.getElementById('calendar__dates');
-            const monthSelect = document.getElementById('calendar__month');
-            const yearSelect = document.getElementById('calendar__year');
             
-            let currentMonth = new Date().getMonth(); 
-            let currentYear = new Date().getFullYear();
-            let startDate = null;
-            let endDate = null;
-            let pickupTime = null;
-            let returnTime = null;
 
-            // Generate time options dynamically
-            function generateTimeOptions() {
-                const options = [];
-                for (let hour = 0; hour < 24; hour++) {
-                    for (let minute = 0; minute < 60; minute += 30) {
-                        const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
-                        options.push(`<option value="${time}">${time}</option>`);
+
+            <!-- Javascript Files -->
+            <script src="js/plugins.js"></script>
+            <script src="js/designesia.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.0/main.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const car_id = <?php echo $car_id; ?>;
+                    const calendarDates = document.getElementById('calendar__dates');
+                    const monthSelect = document.getElementById('calendar__month');
+                    const yearSelect = document.getElementById('calendar__year');
+
+                    let currentMonth = new Date().getMonth();
+                    let currentYear = new Date().getFullYear();
+                    let startDate = null;
+                    let endDate = null;
+                    let pickupTime = null;
+                    let returnTime = null;
+
+                    // Generate time options dynamically
+                    function generateTimeOptions() {
+                        const options = [];
+                        for (let hour = 0; hour < 24; hour++) {
+                            for (let minute = 0; minute < 60; minute += 30) {
+                                const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+                                options.push(`<option value="${time}">${time}</option>`);
+                            }
+                        }
+                        return options.join('');
                     }
-                }
-                return options.join('');
-            }
 
-            // Populate time dropdowns
-            document.getElementById('pickup_time_modal').innerHTML = generateTimeOptions();
-            document.getElementById('return_time_modal').innerHTML = generateTimeOptions();
+                    // Populate time dropdowns
+                    document.getElementById('pickup_time_modal').innerHTML = generateTimeOptions();
+                    document.getElementById('return_time_modal').innerHTML = generateTimeOptions();
 
-            // Fetch booked dates for the car
-            fetch('get_bookings.php?car_id=' + car_id)
-                .then(response => response.json())
-                .then(data => {
-                    renderCalendar(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching booked dates:', error);
-                });
+                    // Fetch booked dates for the car
+                    fetch('get_bookings.php?car_id=' + car_id)
+                        .then(response => response.json())
+                        .then(data => {
+                            renderCalendar(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching booked dates:', error);
+                        });
 
-            // Function to render the calendar with available and booked dates
-            function renderCalendar(bookedDates) {
-                const firstDay = new Date(currentYear, currentMonth, 1); 
-                const lastDay = new Date(currentYear, currentMonth + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                const startingDay = firstDay.getDay();
+                    // Function to render the calendar with available and booked dates
+                    function renderCalendar(bookedDates) {
+                        const firstDay = new Date(currentYear, currentMonth, 1);
+                        const lastDay = new Date(currentYear, currentMonth + 1, 0);
+                        const daysInMonth = lastDay.getDate();
+                        const startingDay = firstDay.getDay();
 
-                let calendarHTML = '';
+                        let calendarHTML = '';
 
-                for (let i = 0; i < startingDay; i++) {
-                    calendarHTML += `<div class="calendar__date empty"></div>`;
-                }
+                        for (let i = 0; i < startingDay; i++) {
+                            calendarHTML += `<div class="calendar__date empty"></div>`;
+                        }
 
-                // Generate each day of the month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const date = new Date(currentYear, currentMonth, day);
-                    const dateStr = date.toISOString().split('T')[0]; // Format date as 'YYYY-MM-DD'
-                    const isBooked = bookedDates.some(booking => {
-                        const bookingStart = new Date(booking.start);
-                        const bookingEnd = new Date(booking.end);
-                        return date >= bookingStart && date <= bookingEnd;
-                    });
+                        // Generate each day of the month
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            const date = new Date(currentYear, currentMonth, day);
+                            const dateStr = date.toISOString().split('T')[0]; // Format date as 'YYYY-MM-DD'
+                            const isBooked = bookedDates.some(booking => {
+                                const bookingStart = new Date(booking.start);
+                                const bookingEnd = new Date(booking.end);
+                                return date >= bookingStart && date <= bookingEnd;
+                            });
 
-                    calendarHTML += `
+                            calendarHTML += `
                         <div class="calendar__date ${isBooked ? 'calendar__date--disabled' : ''}" data-date="${dateStr}">
                             <span>${day}</span>
                         </div>
                     `;
-                }
-                calendarDates.innerHTML = calendarHTML;
+                        }
+                        calendarDates.innerHTML = calendarHTML;
 
-                // Add event listeners for date selection
-                const dateElements = document.querySelectorAll('.calendar__date');
-                dateElements.forEach(dateEl => {
-                    dateEl.addEventListener('click', function () {
-                        if (!dateEl.classList.contains('calendar__date--disabled')) {
-                            if (!startDate) {
-                                startDate = dateEl.dataset.date;
+                        // Add event listeners for date selection
+                        const dateElements = document.querySelectorAll('.calendar__date');
+                        dateElements.forEach(dateEl => {
+                            dateEl.addEventListener('click', function() {
+                                if (!dateEl.classList.contains('calendar__date--disabled')) {
+                                    if (!startDate) {
+                                        startDate = dateEl.dataset.date;
+                                        dateEl.classList.add('calendar__date--selected');
+                                        dateEl.style.backgroundColor = '#ccc';
+                                        disablePreviousDates(startDate);
+                                    } else if (!endDate && dateEl.dataset.date > startDate) {
+                                        endDate = dateEl.dataset.date;
+                                        dateEl.classList.add('calendar__date--selected');
+                                        dateEl.style.backgroundColor = '#ccc';
+                                        autoSelectDatesInRange(startDate, endDate);
+                                    } else if (endDate && dateEl.dataset.date === endDate) {
+                                        endDate = null;
+                                        dateEl.classList.remove('calendar__date--selected');
+                                        dateEl.style.backgroundColor = '';
+                                    } else if (!endDate && dateEl.dataset.date < startDate) {
+
+                                        startDate = null;
+                                        dateEl.classList.remove('calendar__date--selected');
+                                        dateEl.style.backgroundColor = '';
+                                    }
+                                }
+                            });
+                        });
+                    }
+
+                    // Function to disable previous dates before the selected start date (pickup date)
+                    function disablePreviousDates(startDate) {
+                        const dateElements = document.querySelectorAll('.calendar__date');
+                        dateElements.forEach(dateEl => {
+                            const currentDate = new Date(dateEl.dataset.date);
+                            const pickupDate = new Date(startDate);
+                            if (currentDate < pickupDate) {
+                                dateEl.classList.add('calendar__date--disabled');
+                                dateEl.style.pointerEvents = 'none';
+                            }
+                        });
+                    }
+
+                    // Function to auto-select all dates between pickup and return dates
+                    function autoSelectDatesInRange(startDate, endDate) {
+                        const dateElements = document.querySelectorAll('.calendar__date');
+                        dateElements.forEach(dateEl => {
+                            const currentDate = new Date(dateEl.dataset.date);
+                            const pickupDate = new Date(startDate);
+                            const returnDate = new Date(endDate);
+
+                            // If the date is between the pickup and return date, mark it as selected
+                            if (currentDate >= pickupDate && currentDate <= returnDate) {
                                 dateEl.classList.add('calendar__date--selected');
                                 dateEl.style.backgroundColor = '#ccc';
-                                disablePreviousDates(startDate);
-                            } else if (!endDate && dateEl.dataset.date > startDate) {
-                                endDate = dateEl.dataset.date;
-                                dateEl.classList.add('calendar__date--selected');
-                                dateEl.style.backgroundColor = '#ccc'; 
-                                autoSelectDatesInRange(startDate, endDate); 
-                            } else if (endDate && dateEl.dataset.date === endDate) {
-                                endDate = null;
-                                dateEl.classList.remove('calendar__date--selected');
-                                dateEl.style.backgroundColor = ''; 
-                            } else if (!endDate && dateEl.dataset.date < startDate) {
-                                
-                                startDate = null;
-                                dateEl.classList.remove('calendar__date--selected');
-                                dateEl.style.backgroundColor = ''; 
                             }
+                        });
+                    }
+
+                    // Update the calendar when the month or year is changed
+                    monthSelect.addEventListener('change', function() {
+                        currentMonth = monthSelect.selectedIndex;
+                        renderCalendar([]);
+                    });
+
+                    yearSelect.addEventListener('change', function() {
+                        currentYear = parseInt(yearSelect.value, 10);
+                        renderCalendar([]);
+                    });
+
+                    // Populate the months and years dynamically
+                    const months = [
+                        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                    ];
+                    const currentYearOptions = [2025, 2026, 2027, 2028];
+
+                    // Populate the month dropdown
+                    months.forEach((month, index) => {
+                        const option = document.createElement("option");
+                        option.textContent = month;
+                        monthSelect.appendChild(option);
+                    });
+                    monthSelect.selectedIndex = currentMonth;
+
+                    // Populate the year dropdown
+                    currentYearOptions.forEach(year => {
+                        const option = document.createElement("option");
+                        option.textContent = year;
+                        yearSelect.appendChild(option);
+                    });
+                    yearSelect.value = currentYear;
+
+                    // Function to apply the selected dates and times to the booking form when "Book Now" is clicked
+                    document.querySelector('#calendar__apply').addEventListener('click', function() {
+                        if (startDate && endDate) {
+                            document.getElementById('pickup_date').value = startDate;
+                            document.getElementById('return_date').value = endDate;
+
+                            document.getElementById('PickUpDateModal').value = startDate.split('T')[0];
+                            document.getElementById('ReturnDateModal').value = endDate.split('T')[0];
+
+                            var myModal = new bootstrap.Modal(document.getElementById('bookingModal'));
+                            myModal.show();
+                        } else {
+                            alert('Please select a valid date range.');
                         }
                     });
+
+                    // Function to go back to car fleet page
+                    document.getElementById('calendar__back').addEventListener('click', function() {
+                        window.location.href = "cars.php";
+                    });
+
                 });
-            }
-
-            // Function to disable previous dates before the selected start date (pickup date)
-            function disablePreviousDates(startDate) {
-                const dateElements = document.querySelectorAll('.calendar__date');
-                dateElements.forEach(dateEl => {
-                    const currentDate = new Date(dateEl.dataset.date);
-                    const pickupDate = new Date(startDate);
-                    if (currentDate < pickupDate) {
-                        dateEl.classList.add('calendar__date--disabled');
-                        dateEl.style.pointerEvents = 'none';
-                    }
-                });
-            }
-
-            // Function to auto-select all dates between pickup and return dates
-            function autoSelectDatesInRange(startDate, endDate) {
-                const dateElements = document.querySelectorAll('.calendar__date');
-                dateElements.forEach(dateEl => {
-                    const currentDate = new Date(dateEl.dataset.date);
-                    const pickupDate = new Date(startDate);
-                    const returnDate = new Date(endDate);
-
-                    // If the date is between the pickup and return date, mark it as selected
-                    if (currentDate >= pickupDate && currentDate <= returnDate) {
-                        dateEl.classList.add('calendar__date--selected');
-                        dateEl.style.backgroundColor = '#ccc';
-                    }
-                });
-            }
-
-            // Update the calendar when the month or year is changed
-            monthSelect.addEventListener('change', function () {
-                currentMonth = monthSelect.selectedIndex;
-                renderCalendar([]);
-            });
-
-            yearSelect.addEventListener('change', function () {
-                currentYear = parseInt(yearSelect.value, 10);
-                renderCalendar([]);
-            });
-
-            // Populate the months and years dynamically
-            const months = [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-            ];
-            const currentYearOptions = [2025, 2026, 2027, 2028];
-
-            // Populate the month dropdown
-            months.forEach((month, index) => {
-                const option = document.createElement("option");
-                option.textContent = month;
-                monthSelect.appendChild(option);
-            });
-            monthSelect.selectedIndex = currentMonth;
-
-            // Populate the year dropdown
-            currentYearOptions.forEach(year => {
-                const option = document.createElement("option");
-                option.textContent = year;
-                yearSelect.appendChild(option);
-            });
-            yearSelect.value = currentYear;
-
-            // Function to apply the selected dates and times to the booking form when "Book Now" is clicked
-            document.querySelector('#calendar__apply').addEventListener('click', function () {
-                if (startDate && endDate) {
-                    document.getElementById('pickup_date').value = startDate;
-                    document.getElementById('return_date').value = endDate;
-
-                    document.getElementById('PickUpDateModal').value = startDate.split('T')[0];
-                    document.getElementById('ReturnDateModal').value = endDate.split('T')[0];
-
-                    var myModal = new bootstrap.Modal(document.getElementById('bookingModal'));
-                    myModal.show();
-                } else {
-                    alert('Please select a valid date range.');
-                }
-            });
-
-            // Function to go back to car fleet page
-            document.getElementById('calendar__back').addEventListener('click', function () {
-                window.location.href = "cars.php"; 
-            });
-
-        });
-    </script>
+            </script>
 
 </body>
+
 </html>

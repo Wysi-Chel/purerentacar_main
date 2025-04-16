@@ -213,8 +213,8 @@ $category_result = mysqli_query($conn, $sql_category);
                                     </div>
                                 </div>
 
-                                <a href="gigcars.php" class="btn" style="display:inline-block; margin-top:10px; margin-bottom:10px; background-color:#ccc; color:#333; padding:10px 20px; border-radius:4px; text-decoration:none;">Reset Filters</a>
-                                <input type="submit" value="Apply Filters">
+                                <a href="gigcars.php" class="btn-main" style="display:inline-block; margin-top:10px; margin-bottom:10px; background-color:#ccc; color:#333; padding:10px 20px; border-radius:4px; text-decoration:none;">Reset Filters</a>
+                                <input type="submit" value="Apply Filters" class="btn-main">
                             </form>
                         </div>
 

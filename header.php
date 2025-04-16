@@ -1,9 +1,12 @@
-<!-- Header begin -->
-<header class="transparent scroll-light has-topbar">
+<header class="transparent scroll-dark has-topbar">
     <div id="topbar" class="topbar-dark text-light">
-        <div class="wow fadeInRight d-flex">
+        <div class="wow fadeInRight d-flex fixed-topbar" id="topbar-marquee">
             <div class="de-marquee-list">
                 <div class="d-item">
+                    <span class="d-item-txt"> %  MULTIBIG DISCOUNTS  %</span>
+                    <span class="d-item-display"><i class="d-item-dot"></i></span>
+                    <span class="d-item-txt">% BOOK LONGER FOR LARGER DISCOUNTS %</span>
+                    <span class="d-item-display"><i class="d-item-dot"></i></span>
                     <span class="d-item-txt"> %  MULTIBIG DISCOUNTS  %</span>
                     <span class="d-item-display"><i class="d-item-dot"></i></span>
                     <span class="d-item-txt">% BOOK LONGER FOR LARGER DISCOUNTS %</span>
@@ -12,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="fixed-top container">
         <div class="topbar-left xs-hide">
             <div class="topbar-widget">
             </div>
@@ -35,7 +38,7 @@
                     <div class="de-flex-col header-col-mid">
                         <ul id="mainmenu">
                             <li><a class="menu-item" href="index.php">Home</a></li>
-                            <li><a class="menu-item" href="cars.php">Car Fleet</a></li>
+                            <li><a class="menu-item" href="cars.php">Premium Cars</a></li>
                             <li><a class="menu-item" href="gigcars.php">Gig Cars</a></li>
                             <li><a class="menu-item" href="about.php">About Us</a></li>     
                         </ul>
