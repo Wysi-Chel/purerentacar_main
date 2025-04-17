@@ -40,8 +40,8 @@
             $mail->Port       = 587;
 
             // Recipients   
-            $mail->setFrom('iam.chel1021@gmail.com', 'Chel');
-            $mail->addAddress('iam.chel1021@gmail.com', 'Rachelle');
+            $mail->setFrom('chellegds@gmail.com', 'Chel');
+            $mail->addAddress('chellegds@gmail.com', 'Rachelle');
 
             // Content
             $mail->isHTML(true);

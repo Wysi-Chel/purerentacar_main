@@ -188,82 +188,8 @@ function generateTimeOptions()
                                 </div>
 
                                 <div class="calendar__buttons">
-                                    <button class="btn-main" id="calendar__back">Back</button>
-                                    <button class="btn-main" id="calendar__apply" data-bs-target="#staticBackdrop" data-bs-toggle="modal">Book Now</button>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="staticBackdropLabel">Enter your booking details</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <!-- Hidden fields for car and user id -->
-                                                    <input type="hidden" name="car_id" value="<?php echo $car_id; ?>">
-                                                    <input type="hidden" name="user_id" value="1">
-                                                    <input type="hidden" name="pickup_date" id="pickup_date">
-                                                    <input type="hidden" name="return_date" id="return_date">
-
-                                                    <div class="mb-3">
-                                                        <label for="first_name" class="form-label">First Name:</label>
-                                                        <input type="text" class="form-control" name="first_name" id="first_name" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="last_name" class="form-label">Last Name</label>
-                                                        <input type="text" class="form-control" name="last_name" id="last_name" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="email" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" name="email" id="email" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="phone" class="form-label">Phone</label>
-                                                        <input type="tel" class="form-control" name="phone" id="phone" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="PickUpDateModal" class="form-label">Pick Up Date</label>
-                                                        <input type="date" class="form-control" name="PickUpDate" id="PickUpDateModal" required readonly>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="pickup_time_modal" class="form-label">Pick Up Time</label>
-                                                        <div class="input-group">
-                                                            <select class="form-select" id="pickup_time_modal" name="pickup_time" required>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="mb-3">
-                                                        <label for="ReturnDateModal" class="form-label">Return Date</label>
-                                                        <input type="date" class="form-control" name="ReturnDate" id="ReturnDateModal" required readonly>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="return_time_modal" class="form-label">Return Time</label>
-                                                        <div class="input-group">
-                                                            <select class="form-select" id="return_time_modal" name="return_time" required>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="mb-3">
-                                                        <label for="license" class="form-label">Upload Driver's License</label>
-                                                        <input type="file" class="form-control" name="license" id="license" accept=".jpg, .jpeg, .png, .pdf" required>
-                                                        <small class="form-text text-muted">Accepted formats: .jpg, .jpeg, .png, .pdf</small>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="insurance_card" class="form-label">Upload Insurance Card</label>
-                                                        <input type="file" class="form-control" name="insurance_card" id="insurance_card" accept=".jpg, .jpeg, .png, .pdf" required>
-                                                        <small class="form-text text-muted">Accepted formats: .jpg, .jpeg, .png, .pdf</small>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn-main" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn-main">Confirm Booking</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <button class="calendar__button calendar__button--grey" id="calendar__back">Back</button>
+                                    <button class="calendar__button calendar__button--primary" id="calendar__apply">Book Now</button>
                                 </div>
                             </div>
                             <div class="clearfix"></div>
@@ -276,7 +202,91 @@ function generateTimeOptions()
                 <a href="#" id="back-to-top"></a>
             </div>
 
-            
+            <!-- Booking Modal -->
+            <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <form action="process_booking.php" method="post" id="bookingModalForm" enctype="multipart/form-data">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="bookingModalLabel">Enter Your Booking Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Hidden fields for car and user id -->
+                                <input type="hidden" name="car_id" value="<?php echo $car_id; ?>">
+                                <input type="hidden" name="user_id" value="1">
+                                <input type="hidden" name="pickup_date" id="pickup_date">
+                                <input type="hidden" name="return_date" id="return_date">
+
+                                <div class="mb-3">
+                                    <label for="first_name" class="form-label">First Name:</label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" id="last_name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="tel" class="form-control" name="phone" id="phone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PickUpDateModal" class="form-label">Pick Up Date</label>
+                                    <input type="date" class="form-control" name="PickUpDate" id="PickUpDateModal" required readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pickup_time_modal" class="form-label">Pick Up Time</label>
+                                    <div class="input-group">
+                                        <select class="form-select" id="pickup_time_modal" name="pickup_time" required>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="ReturnDateModal" class="form-label">Return Date</label>
+                                    <input type="date" class="form-control" name="ReturnDate" id="ReturnDateModal" required readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="return_time_modal" class="form-label">Return Time</label>
+                                    <div class="input-group">
+                                        <select class="form-select" id="return_time_modal" name="return_time" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Upload Driver's License: </label><br>
+                                    <?php if (!empty($car['drivers_license_image'])): ?>
+                                        <img src="<?php echo $car['drivers_license_image']; ?>" alt="Driver's license" class="current-img">
+                                    <?php else: ?>
+                                        <p>No driver's license image uploaded.</p>
+                                    <?php endif; ?>
+                                    <input type="file" class="form-control" name="drivers_license_image" id="drivers_license_image">
+                                    <small class="form-text text-muted">Accepted Formats: .jpg, .jpeg, .png, .pdf</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Upload Insurance Card: </label><br>
+                                    <?php if (!empty($car['insurance_card_image'])): ?>
+                                        <img src="<?php echo $car['insurance_card_image']; ?>" alt="Insurance Card Image" class="current-img">
+                                    <?php else: ?>
+                                        <p>No insurance card image uploaded.</p>
+                                    <?php endif; ?>
+                                    <input type="file" class="form-control" name="insurance_card_image" id="insurance_card_image">
+                                    <small class="form-text text-muted">Accepted Formats: .jpg, .jpeg, .png, .pdf</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
 
             <!-- Javascript Files -->
