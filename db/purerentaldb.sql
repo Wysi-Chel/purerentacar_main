@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2025 at 07:13 PM
+-- Generation Time: Apr 17, 2025 at 08:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -21,44 +21,6 @@ SET time_zone = "+00:00";
 -- Database: `purerentaldb`
 --
 
-DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateBooking` (IN `p_customer_id` INT, IN `p_car_id` INT, IN `p_start_date` DATE, IN `p_end_date` DATE)   BEGIN
-    DECLARE v_daily_rate DECIMAL(10,2);
-    DECLARE v_num_days INT;
-    DECLARE v_total_cost DECIMAL(10,2);
-    DECLARE v_conflict INT;
-
-    -- Check for booking conflicts for the selected car and period
-    SELECT COUNT(*) INTO v_conflict
-    FROM bookings
-    WHERE car_id = p_car_id
-      AND (p_start_date < end_date AND p_end_date > start_date)
-      AND status IN ('pending', 'confirmed', 'completed');
-
-    IF v_conflict > 0 THEN
-        SIGNAL SQLSTATE '45000' 
-            SET MESSAGE_TEXT = 'Car is already booked for the selected period';
-    END IF;
-
-    -- Get the car's daily rental rate
-    SELECT rental_rate INTO v_daily_rate 
-    FROM cars 
-    WHERE id = p_car_id;
-
-    -- Calculate the number of rental days (inclusive)
-    SET v_num_days = DATEDIFF(p_end_date, p_start_date) + 1;
-    SET v_total_cost = v_daily_rate * v_num_days;
-
-    -- Insert the booking record and set its status to confirmed
-    INSERT INTO bookings (customer_id, car_id, booking_date, start_date, end_date, total_cost, status)
-    VALUES (p_customer_id, p_car_id, CURDATE(), p_start_date, p_end_date, v_total_cost, 'confirmed');
-END$$
-
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -75,19 +37,26 @@ CREATE TABLE `bookings` (
   `total_cost` decimal(10,2) NOT NULL,
   `status` enum('pending','confirmed','cancelled','completed') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `drivers_license_image` varchar(255) DEFAULT NULL,
+  `insurance_card_image` varchar(255) DEFAULT NULL,
+  `pickup_time` time NOT NULL,
+  `return_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `customer_id`, `car_id`, `booking_date`, `start_date`, `end_date`, `total_cost`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 7, '2025-04-11', '2025-04-03', '2025-04-04', 140.00, 'confirmed', '2025-04-11 10:21:24', '2025-04-11 10:21:24'),
-(2, 1, 5, '2025-04-11', '2025-04-12', '2025-04-14', 1200.00, 'confirmed', '2025-04-11 10:23:54', '2025-04-11 10:23:54'),
-(3, 1, 6, '2025-04-11', '2025-04-11', '2025-04-13', 1200.00, 'confirmed', '2025-04-11 10:32:19', '2025-04-11 10:32:19'),
-(4, 1, 1, '2025-04-11', '2025-04-25', '2025-04-28', 1600.00, 'confirmed', '2025-04-11 11:14:40', '2025-04-11 11:14:40'),
-(5, 1, 1, '2025-04-11', '2025-05-01', '2025-05-03', 1200.00, 'confirmed', '2025-04-11 17:49:04', '2025-04-11 17:49:04');
+INSERT INTO `bookings` (`id`, `customer_id`, `car_id`, `booking_date`, `start_date`, `end_date`, `total_cost`, `status`, `created_at`, `updated_at`, `drivers_license_image`, `insurance_card_image`, `pickup_time`, `return_time`) VALUES
+(3, 1, 6, '2025-04-11', '2025-04-11', '2025-04-13', 1200.00, 'confirmed', '2025-04-11 10:32:19', '2025-04-11 10:32:19', NULL, NULL, '00:00:00', '00:00:00'),
+(6, 1, 6, '2025-04-17', '2025-04-23', '2025-04-24', 800.00, 'confirmed', '2025-04-17 15:58:33', '2025-04-17 15:58:33', NULL, NULL, '00:00:00', '00:00:00'),
+(7, 1, 9, '2025-04-17', '2025-04-17', '2025-04-18', 800.00, 'confirmed', '2025-04-17 17:43:50', '2025-04-17 17:43:50', NULL, NULL, '00:00:00', '00:00:00'),
+(8, 1, 9, '2025-04-17', '2025-04-09', '2025-04-11', 1200.00, 'confirmed', '2025-04-17 17:44:36', '2025-04-17 17:44:36', NULL, NULL, '00:00:00', '00:00:00'),
+(9, 1, 6, '2025-04-17', '2025-04-28', '2025-04-29', 800.00, 'confirmed', '2025-04-17 18:22:42', '2025-04-17 18:22:42', '', '', '00:00:00', '00:00:00'),
+(10, 1, 6, '2025-04-17', '2025-04-25', '2025-04-26', 800.00, 'confirmed', '2025-04-17 18:25:04', '2025-04-17 18:25:04', 'uploads/Screenshot 2024-12-31 at 12.22.26 PM.png', 'uploads/ronaldbizick.png', '00:00:00', '00:00:00'),
+(11, 1, 8, '2025-04-17', '2025-04-14', '2025-04-16', 1200.00, 'confirmed', '2025-04-17 18:29:53', '2025-04-17 18:29:53', 'uploads/ronaldbizick.png', 'uploads/ronaldbizick.png', '00:00:00', '00:00:00'),
+(12, 1, 9, '2025-04-17', '2025-04-02', '2025-04-05', 1600.00, 'confirmed', '2025-04-17 18:40:02', '2025-04-17 18:40:02', 'uploads/logo-stonino.png', 'uploads/OD070I.png', '00:00:00', '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -116,10 +85,9 @@ CREATE TABLE `cars` (
 --
 
 INSERT INTO `cars` (`id`, `make`, `model`, `year`, `category`, `status`, `display_image`, `seaters`, `num_doors`, `runs_on_gas`, `mpg`, `daily_rate`, `weekly_rate`) VALUES
-(1, 'BMW', 'i8', 2017, 'Sport', 'Available', 'images/cars/67e45474527a8_67e4545ca5589_image.png', 2, 2, 'battery', 28.00, 400.00, 0.00),
-(5, 'Lotus', 'Emira', 2024, 'Sport', 'Available', 'images/cars/67e56f0da46a9_lotus_emira.png', 2, 2, 'battery', 20.00, 400.00, 0.00),
-(6, 'Tesla', 'Cybertruck', 2024, 'Pickup', 'Available', 'images/cars/67e56f818cd5b_tesla.png', 5, 4, 'battery', 0.00, 400.00, 0.00),
-(7, 'Tesla', 'X', 2023, 'suv', 'Available', 'images/cars/67e6b929cdaf6_1.png', 5, 4, 'battery', 0.00, 70.00, 0.00);
+(6, 'Tesla', 'Cybertruck', 2024, 'SUV', 'Available', 'images/cars/67e56f818cd5b_tesla.png', 5, 4, 'battery', 0.00, 400.00, 0.00),
+(8, 'BMW', 'i8', 2017, 'Sedan', 'Available', 'images/cars/67fd557dafb3b_image.png', 4, 2, 'battery', 28.00, 400.00, 0.00),
+(9, 'Lotus', 'Emira', 2024, 'Sedan', 'Available', 'images/cars/67fd566fc98c3_lotus_emira.png', 2, 2, 'battery', 20.00, 400.00, 0.00);
 
 -- --------------------------------------------------------
 
@@ -138,17 +106,15 @@ CREATE TABLE `car_images` (
 --
 
 INSERT INTO `car_images` (`id`, `car_id`, `image_path`) VALUES
-(55, 1, 'images/cars/67e5575a3f42b_67e323da4a2b0_2.png'),
-(56, 1, 'images/cars/67e5575a3fe9a_67e3225607499_1.png'),
-(75, 5, 'images/cars/67e56f0da5359_1.png'),
-(76, 5, 'images/cars/67e56f0da5d78_2.png'),
-(77, 5, 'images/cars/67e56f0da64f6_3.png'),
 (78, 6, 'images/cars/67e56f818d6d0_1.png'),
 (79, 6, 'images/cars/67e56f818ddab_2.png'),
 (80, 6, 'images/cars/67e56f818e644_3.png'),
-(81, 7, 'images/cars/67e6b929ce5dc_4.png'),
-(82, 7, 'images/cars/67e6b929cf739_3.png'),
-(83, 7, 'images/cars/67e6b929d0019_2.png');
+(84, 8, 'images/cars/67fd557db0444_67e5575a3f42b_67e323da4a2b0_2.png'),
+(85, 8, 'images/cars/67fd557db0cf3_67e5575a3fe9a_67e3225607499_1.png'),
+(86, 8, 'images/cars/67fd557db1510_67e3225607499_1.png'),
+(87, 9, 'images/cars/67fd566fca101_1.png'),
+(88, 9, 'images/cars/67fd566fcaa9d_2.png'),
+(89, 9, 'images/cars/67fd566fcb26b_3.png');
 
 -- --------------------------------------------------------
 
@@ -168,27 +134,13 @@ CREATE TABLE `car_rental_rates` (
 --
 
 INSERT INTO `car_rental_rates` (`id`, `car_id`, `daily_rate`, `weekly_rate`) VALUES
-(58, 5, 0.00, 0.00),
-(59, 5, 0.00, 0.00),
-(60, 5, 0.00, 0.00),
-(61, 5, 0.00, 0.00),
-(62, 5, 0.00, 0.00),
-(63, 5, 0.00, 0.00),
-(64, 5, 0.00, 0.00),
 (65, 6, 0.00, 0.00),
 (66, 6, 0.00, 0.00),
 (67, 6, 0.00, 0.00),
 (68, 6, 0.00, 0.00),
 (69, 6, 0.00, 0.00),
 (70, 6, 0.00, 0.00),
-(71, 6, 0.00, 0.00),
-(72, 7, 0.00, 0.00),
-(73, 7, 0.00, 0.00),
-(74, 7, 0.00, 0.00),
-(75, 7, 0.00, 0.00),
-(76, 7, 0.00, 0.00),
-(77, 7, 0.00, 0.00),
-(78, 7, 0.00, 0.00);
+(71, 6, 0.00, 0.00);
 
 -- --------------------------------------------------------
 
@@ -202,6 +154,8 @@ CREATE TABLE `customers` (
   `last_name` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
+  `drivers_license_image` longblob DEFAULT NULL,
+  `insurance_card_image` longblob DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -210,9 +164,46 @@ CREATE TABLE `customers` (
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES
-(1, 'John', 'Doe', 'john.doe@example.com', '555-1234', '2025-03-18 17:40:49', '2025-03-18 17:40:49'),
-(2, 'Jane', 'Smith', 'jane.smith@example.com', '555-5678', '2025-03-18 17:40:49', '2025-03-18 17:40:49');
+INSERT INTO `customers` (`id`, `first_name`, `last_name`, `email`, `phone`, `drivers_license_image`, `insurance_card_image`, `created_at`, `updated_at`) VALUES
+(1, 'John', 'Doe', 'john.doe@example.com', '555-1234', NULL, NULL, '2025-03-18 17:40:49', '2025-03-18 17:40:49'),
+(2, 'Jane', 'Smith', 'jane.smith@example.com', '555-5678', NULL, NULL, '2025-03-18 17:40:49', '2025-03-18 17:40:49'),
+(3, 'deok-sun', 'sung', 'sungdeoksun@gmail.com', '34929485723', NULL, NULL, '2025-04-17 18:40:02', '2025-04-17 18:40:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `gigcars`
+--
+
+CREATE TABLE `gigcars` (
+  `id` int(11) NOT NULL,
+  `make` varchar(50) NOT NULL,
+  `model` varchar(50) NOT NULL,
+  `year` int(5) DEFAULT NULL,
+  `category` varchar(20) DEFAULT NULL,
+  `status` varchar(20) DEFAULT 'Available',
+  `gigcar_dispimage` varchar(255) DEFAULT NULL,
+  `seaters` int(11) NOT NULL DEFAULT 4,
+  `num_doors` int(11) NOT NULL DEFAULT 4,
+  `runs_on_gas` varchar(20) NOT NULL DEFAULT '',
+  `mpg` decimal(5,2) DEFAULT NULL,
+  `daily_rate` decimal(10,2) DEFAULT NULL,
+  `weekly_rate` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gigcars`
+--
+
+INSERT INTO `gigcars` (`id`, `make`, `model`, `year`, `category`, `status`, `gigcar_dispimage`, `seaters`, `num_doors`, `runs_on_gas`, `mpg`, `daily_rate`, `weekly_rate`, `created_at`, `updated_at`) VALUES
+(1, 'Mitsubishi', 'Mirage G4', 2023, 'Sedan', 'Available', 'images/cars/67fd589832415_1.png', 5, 4, 'battery', 38.00, 50.00, 318.00, '2025-04-14 18:06:00', '2025-04-14 20:58:19'),
+(2, 'Ford', 'Explorer', 2016, 'SUV', 'Available', 'images/cars/67fd6caa71fd0_1.png', 5, 4, 'battery', 19.00, 50.00, 318.00, '2025-04-14 20:14:16', '2025-04-14 20:57:53'),
+(3, 'Kia', 'Soul', 2023, 'SUV', 'Available', 'images/cars/67fd6f7649086_1.png', 4, 4, 'battery', 30.00, 60.00, 0.00, '2025-04-14 20:25:01', '2025-04-14 20:58:01'),
+(4, 'Hyundai', 'Venue', 2023, 'SUV', 'Available', 'images/cars/67fd72045501a_1.png', 5, 4, 'battery', 30.00, 60.00, 0.00, '2025-04-14 20:35:53', '2025-04-14 20:58:07'),
+(5, 'Kia', 'Forte', 2023, 'Sedan', 'Available', 'images/cars/67fd75fbb31c1_kia-forte2023.png', 5, 4, 'battery', 39.00, 60.00, 0.00, '2025-04-14 20:53:25', '2025-04-14 20:58:14'),
+(6, 'Nissan', 'Versa', 2025, 'Sedan', 'Available', 'images/cars/67fd78eb87095_versa 2025.png', 5, 4, 'battery', 36.00, 55.00, 0.00, '2025-04-14 21:05:57', '2025-04-14 21:06:51');
 
 -- --------------------------------------------------------
 
@@ -280,6 +271,12 @@ ALTER TABLE `customers`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `gigcars`
+--
+ALTER TABLE `gigcars`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `locations`
 --
 ALTER TABLE `locations`
@@ -293,19 +290,19 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `car_images`
 --
 ALTER TABLE `car_images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `car_rental_rates`
@@ -317,7 +314,13 @@ ALTER TABLE `car_rental_rates`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `gigcars`
+--
+ALTER TABLE `gigcars`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `locations`
@@ -334,7 +337,7 @@ ALTER TABLE `locations`
 --
 ALTER TABLE `bookings`
   ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
-  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`);
+  ADD CONSTRAINT `bookings_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `cars` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `car_images`

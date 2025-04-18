@@ -1,6 +1,6 @@
 <?php
 // dbconfig.php
-
+    
 // Database connection settings – update these with your actual credentials
 $servername = "localhost";
 $username   = "root";
