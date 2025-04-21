@@ -9,6 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $make        = $conn->real_escape_string($_POST['make']);
     $model       = $conn->real_escape_string($_POST['model']);
     $year        = intval($_POST['year']);
+    $license_plate = $conn->real_escape_string($_POST['license_plate']);
+    $vin_num       = $conn->real_escape_string($_POST['vin_num']);
     $category    = $conn->real_escape_string($_POST['category']);
     $status      = $conn->real_escape_string($_POST['status']);
     
@@ -25,14 +27,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Process display image upload if a new file is provided
     if (isset($_FILES['gigcar_dispimage']) && $_FILES['gigcar_dispimage']['error'] == 0) {
-        $targetDir = "images/cars/"; // Adjust path if necessary
+        $targetDir = "images/cars/";
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0777, true);
         }
         $filename   = uniqid() . "_" . basename($_FILES['gigcar_dispimage']['name']);
         $targetFile = $targetDir . $filename;
         if (move_uploaded_file($_FILES['gigcar_dispimage']['tmp_name'], $targetFile)) {
-            // Store the relative path (adjust if your stored path should be different)
             $display_image_path = "images/cars/" . $filename;
         } else {
             die("Error uploading new display image.");
@@ -53,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             make = '$make', 
                             model = '$model', 
                             year = '$year', 
+                            license_plate = '$license_plate',
+                            vin_num = '$vin_num',
                             category = '$category', 
                             status = '$status', 
                             seaters = $seaters,
@@ -68,6 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             make = '$make', 
                             model = '$model', 
                             year = '$year', 
+                            license_plate = '$license_plate',
+                            vin_num = '$vin_num',
                             category = '$category', 
                             status = '$status',
                             seaters = $seaters,
@@ -117,7 +122,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $conn->close();
 
-        // Output a small HTML page that instructs the parent to close the modal and reload
         ?>
         <!DOCTYPE html>
         <html lang="en">

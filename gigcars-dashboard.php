@@ -16,6 +16,8 @@ $sql = "SELECT
     g.make,
     g.model,
     g.year,
+    g.license_plate,
+    g.vin_num,
     g.category,
     g.status,
     g.gigcar_dispimage AS image,
@@ -66,7 +68,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                         </div>
                         <div class="de-flex-col header-col-mid">
                             <ul id="mainmenu">
-                                <li><a class="menu-item" href="admin-dashboard.php">Dashboard</a></li>
+                                <li><a class="menu-item" href="admin-dashboard.php">Premium Cars</a></li>
                                 <li><a class="menu-item" href="gigcars-dashboard.php">Gig Cars</a></li>
                             </ul>
                         </div>
@@ -146,6 +148,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                 <th>Make</th>
                                 <th>Model</th>
                                 <th>Year</th>
+                                <th>License Plate</th>
+                                <th>VIN#</th>
                                 <th>Category</th>
                                 <th>MPG</th>
                                 <th>Daily Rate</th>
@@ -170,6 +174,8 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                 echo "<td>" . $row['make'] . "</td>";
                                 echo "<td>" . $row['model'] . "</td>";
                                 echo "<td>" . $row['year'] . "</td>";
+                                echo "<td>" . $row['license_plate'] . "</td>";
+                                echo "<td>" . $row['vin_num'] . "</td>";
                                 echo "<td>" . $row['category'] . "</td>";      
                                 echo "<td>" . $row['mpg'] . "</td>";
                                 echo "<td>" . (!empty($row['daily_rate']) ? "$" . number_format($row['daily_rate'], 2) : "N/A") . "</td>";

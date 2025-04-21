@@ -172,7 +172,7 @@
                                             Do I need insurance to rent a car?
                                         </div>
                                         <div class="accordion-section-content" id="accordion-2">
-                                            <p>To rent directly from us, <bold> full coverage </bold> insurance is required at no extra charge. Simply provide your insurance card for verification, and we'll quickly approve you to rent one of our fantastic vehicles. If you don't have full coverage insurance, we'll offer an alternative through a third-party provider, which may have higher age requirements and additional fees.</p>
+                                            <p>To rent directly from us, <bold> full coverage </bold> insurance is required at no extra charge. Simply provide your insurance card for verification, and we'll quickly approve you to rent one of our rental vehicles. If you don't have full coverage insurance, we'll offer an alternative through a third-party provider, which may have higher age requirements and additional fees.</p>
                                         </div>
                                         <div class="accordion-section-title" data-tab="#accordion-3">
                                            Can I drive the car anywhere I want?

@@ -1,3 +1,4 @@
+```php
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -8,16 +9,16 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $car_id = isset($_POST['car_id']) ? intval($_POST['car_id']) : 0;
-    $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
-    $first_name = isset($_POST['first_name']) ? strip_tags(trim($_POST['first_name'])) : '';
-    $last_name = isset($_POST['last_name']) ? strip_tags(trim($_POST['last_name'])) : '';
-    $email = isset($_POST['email']) ? filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL) : '';
-    $phone = isset($_POST['phone']) ? strip_tags(trim($_POST['phone'])) : '';
-    $pickupDate = isset($_POST['PickUpDate']) ? trim($_POST['PickUpDate']) : '';
-    $pickup_time = isset($_POST['pickup_time']) ? trim($_POST['pickup_time']) : '';
-    $returnDate = isset($_POST['ReturnDate']) ? trim($_POST['ReturnDate']) : '';
-    $return_time = isset($_POST['return_time']) ? trim($_POST['return_time']) : '';
+    $car_id = filter_var($_POST['car_id'], FILTER_VALIDATE_INT) ?? 0;
+    $user_id = filter_var($_POST['user_id'], FILTER_VALIDATE_INT) ?? 0;
+    $first_name = filter_var($_POST['first_name'], FILTER_SANITIZE_STRING) ?? '';
+    $last_name = filter_var($_POST['last_name'], FILTER_SANITIZE_STRING) ?? '';
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) ?? '';
+    $phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING) ?? '';
+    $pickupDate = filter_var($_POST['PickUpDate'], FILTER_SANITIZE_STRING) ?? '';
+    $pickup_time = filter_var($_POST['pickup_time'], FILTER_SANITIZE_STRING) ?? '';
+    $returnDate = filter_var($_POST['ReturnDate'], FILTER_SANITIZE_STRING) ?? '';
+    $return_time = filter_var($_POST['return_time'], FILTER_SANITIZE_STRING) ?? '';
 
     if (!$car_id || !$user_id || empty($first_name) || empty($last_name) || empty($email) || empty($phone) || empty($pickupDate) || empty($pickup_time) || empty($returnDate) || empty($return_time)) {
         echo 'Please fill in all required booking information.';
@@ -54,34 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $customer_id = $stmt->insert_id;
     }
 
-    $sql_car_details = "SELECT make, model FROM cars WHERE id = ?";
+    $sql_car_details = "SELECT make, model, daily_rate FROM cars WHERE id = ?";
     $stmt = $conn->prepare($sql_car_details);
     $stmt->bind_param("i", $car_id);
     $stmt->execute();
-    $stmt->bind_result($car_make, $car_model);
-    $stmt->fetch();
-    $stmt->close();
-
-    $sql_car_rate = "SELECT daily_rate FROM cars WHERE id = ?";
-    $stmt = $conn->prepare($sql_car_rate);
-    $stmt->bind_param("i", $car_id);
-    $stmt->execute();
-    $stmt->bind_result($rental_rate);
-    $stmt->fetch();
-    $stmt->close();
-
-    $stmt = $conn->prepare($sql_car_details);
-    $stmt->bind_param("i", $car_id);
-    $stmt->execute();
-    $stmt->bind_result($car_make, $car_model);
-    $stmt->fetch();
-    $stmt->close();
-
-    $sql_car_rate = "SELECT daily_rate FROM cars WHERE id = ?";
-    $stmt = $conn->prepare($sql_car_rate);
-    $stmt->bind_param("i", $car_id);
-    $stmt->execute();
-    $stmt->bind_result($rental_rate);
+    $stmt->bind_result($car_make, $car_model, $rental_rate);
     $stmt->fetch();
     $stmt->close();
 
@@ -137,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql_insert_booking = "INSERT INTO bookings (customer_id, car_id, booking_date, start_date, end_date, total_cost, status, drivers_license_image, insurance_card_image) VALUES (?, ?, CURDATE(), ?, ?, ?, 'confirmed', ?, ?)";
     $stmt = $conn->prepare($sql_insert_booking);
-    $stmt->bind_param("iissdss", $user_id, $car_id, $pickupDate, $returnDate, $total_cost, $drivers_license_path, $insurance_card_path);
+    $stmt->bind_param("iissdss", $customer_id, $car_id, $pickupDate, $returnDate, $total_cost, $drivers_license_path, $insurance_card_path);
     $stmt->execute();
     $stmt->close();
 
@@ -187,4 +165,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo 'Invalid request method.';
 }
-?>

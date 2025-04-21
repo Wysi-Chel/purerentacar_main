@@ -9,6 +9,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $make        = $conn->real_escape_string($_POST['make']);
     $model       = $conn->real_escape_string($_POST['model']);
     $year        = intval($_POST['year']);
+    $license_plate = $conn->real_escape_string($_POST['license_plate']);
+    $vin_num     = $conn->real_escape_string($_POST['vin_num']);
     $category    = $conn->real_escape_string($_POST['category']);
     $status      = $conn->real_escape_string($_POST['status']);
     
@@ -45,6 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         make = '$make', 
                         model = '$model', 
                         year = '$year', 
+                        license_plate = '$license_plate',
+                        vin_num = '$vin_num',
                         category = '$category', 
                         status = '$status', 
                         seaters = $seaters,
@@ -60,6 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         make = '$make', 
                         model = '$model', 
                         year = '$year', 
+                        license_plate = '$license_plate',
+                        vin_num = '$vin_num',
                         category = '$category', 
                         status = '$status',
                         seaters = $seaters,
@@ -87,7 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $targetFile = $uploadDir . $filename;
         
         if (move_uploaded_file($_FILES['additional_images']['tmp_name'][$i], $targetFile)) {
-            // Insert the image record into the car_images table
             $stmt_img = $conn->prepare("INSERT INTO car_images (car_id, image_path) VALUES (?, ?)");
             $stmt_img->bind_param("is", $car_id, $targetFile);
             $stmt_img->execute();

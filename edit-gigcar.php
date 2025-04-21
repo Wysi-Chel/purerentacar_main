@@ -47,6 +47,14 @@
                     <label for="year" class="form-label">Year</label>
                     <input type="number" class="form-control" id="year" name="year" value="<?php echo htmlspecialchars($car['year']); ?>" required>
                 </div>
+                <div class="mb-3">
+                    <label for="license_plate" class="form-label">License Plate:</label>
+                    <input type="text" class="form-control" id="license_plate" name="license_plate" value="<?php echo htmlspecialchars($car['license_plate']); ?>" required>
+                </div>
+                <div class="mb-3">
+                    <label for="vin_num" class="form-label">VIN#</label>
+                    <input type="text" class="form-control" id="vin_num" name="vin_num" value="<?php echo htmlspecialchars($car['vin_num']); ?>" required>
+                </div>
                 <!-- Category: dynamically generated select -->
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>

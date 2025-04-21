@@ -12,12 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $make        = trim($_POST['make']);
     $model       = trim($_POST['model']);
     $year        = intval($_POST['year']);
+    $license_plate = trim($_POST['license_plate']);
+    $vin_num        = trim($_POST['vin_num']);
     $category    = trim($_POST['category']);
     
     // New car details
     $seaters     = intval($_POST['seaters']);
     $num_doors   = intval($_POST['num_doors']);
-    $runs_on_gas = trim($_POST['runs_on_gas']); // expecting one of the predefined options
+    $runs_on_gas = trim($_POST['runs_on_gas']);
     $mpg         = floatval($_POST['mpg']);
     
     // Rental rates (Daily and Weekly)
@@ -43,15 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if (empty($error)) {
         // Insert the main car record including new fields (daily_rate, weekly_rate)
-        $stmt = $conn->prepare("INSERT INTO gigcars (make, model,   , category, status, gigcar_dispimage, seaters, num_doors, runs_on_gas, mpg, daily_rate, weekly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssisssiisddd", $make, $model, $year, $category, $status, $uploadFile, $seaters, $num_doors, $runs_on_gas, $mpg, $daily_rate, $weekly_rate);
+        $stmt = $conn->prepare("INSERT INTO gigcars (make, model, year, license_plate, vin_num, category, status, gigcar_dispimage, seaters, num_doors, runs_on_gas, mpg, daily_rate, weekly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+        $stmt->bind_param("ssisssssiisddd", $make, $model, $year, $license_plate, $vin_num, $category, $status, $uploadFile, $seaters, $num_doors, $runs_on_gas, $mpg, $daily_rate, $weekly_rate);
         
         if ($stmt->execute()) {
-            // Get the inserted car's ID
             $car_id = $stmt->insert_id;
             $stmt->close();
     
-            // Process additional images only after the main insert (when $car_id is available)
             if (isset($_FILES['additional_images']) && $_FILES['additional_images']['error'][0] === 0) {
                 for ($i = 0; $i < count($_FILES['additional_images']['name']); $i++) {
                     $uploadDir = "images/cars/";
@@ -62,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $targetFile = $uploadDir . $filename;
                     
                     if (move_uploaded_file($_FILES['additional_images']['tmp_name'][$i], $targetFile)) {
-                        // Insert the image record into the car_images table
                         $stmt_img = $conn->prepare("INSERT INTO car_images (car_id, image_path) VALUES (?, ?)");
                         $stmt_img->bind_param("is", $car_id, $targetFile);
                         $stmt_img->execute();
@@ -87,13 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="description" content="Pure Rental Group Webpage">
     <meta name="keywords" content="">
     <meta name="author" content="">
-    <!-- CSS Files -->
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" id="bootstrap">
     <link href="css/mdb.min.css" rel="stylesheet" type="text/css" id="mdb">
     <link href="css/plugins.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <link href="css/coloring.css" rel="stylesheet" type="text/css">
-    <!-- Color scheme -->
     <link id="colors" href="css/colors/scheme-07.css" rel="stylesheet" type="text/css">
     <style>
         /* Dark-scheme settings */
@@ -217,7 +214,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <!-- Form with file upload support -->
             <form action="" method="post" enctype="multipart/form-data">
-                <!-- Car Basic Details -->
                 <div class="form-group">
                     <label for="make">Make:</label>
                     <input type="text" name="make" id="make" class="form-control" required>
@@ -229,6 +225,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group">
                     <label for="year">Year:</label>
                     <input type="number" name="year" id="year" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="license_plate">License Plate:</label>
+                    <input type="text" name="license_plate" id="license_plate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="vin_num">VIN#:</label>
+                    <input type="text" name="vin_num" id="vin_num" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="category">Category:</label>

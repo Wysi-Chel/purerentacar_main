@@ -47,7 +47,15 @@ $car = $carResult->fetch_assoc();
                 <label for="year" class="form-label">Year</label>
                 <input type="number" class="form-control" id="year" name="year" value="<?php echo htmlspecialchars($car['year']); ?>" required>
             </div>
-            <!-- Category: dynamically generated select -->
+            <div class="mb-3">
+                <label for="license_plate" class="form-label">License Plate</label>
+                <input type="number" class="form-control" id="license_plate" name="license_plate" value="<?php echo htmlspecialchars($car['license_plate']); ?>" required>
+            </div>
+            <div class="mb-3">
+                <label for="vin_num" class="form-label">VIN#</label>
+                <input type="number" class="form-control" id="vin_num" name="vin_num" value="<?php echo htmlspecialchars($car['vin_num']); ?>" required>
+            </div>
+            
             <div class="mb-3">
                 <label for="category" class="form-label">Category</label>
                 <select class="form-select" id="category" name="category" required>
@@ -122,7 +130,6 @@ $car = $carResult->fetch_assoc();
             </p>
 
             <button type="submit" class="btn btn-primary">Save Changes</button>
-            <!-- Cancel button calls cancelEdit() -->
             <button type="button" class="btn btn-secondary" onclick="cancelEdit();">Cancel</button>
         </form>
     </div>
