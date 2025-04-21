@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     if (empty($error)) {
         // Insert the main car record including new fields (daily_rate, weekly_rate)
-        $stmt = $conn->prepare("INSERT INTO cars (make, model, year, license_plate, vin_num, category, status, display_image, seaters, num_doors, runs_on_gas, mpg, daily_rate, weekly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO cars (make, model, year, license_plate, vin_num, category, status, display_image, seaters, num_doors, runs_on_gas, mpg, daily_rate, weekly_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssisssssiisddd", $make, $model, $year, $license_plate, $vin_num, $category, $status, $uploadFile, $seaters, $num_doors, $runs_on_gas, $mpg, $daily_rate, $weekly_rate);
         
         if ($stmt->execute()) {
@@ -234,11 +234,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="license_plate">License Plate:</label>
-                    <input type="number" name="license_plate" id="license_plate" class="form-control" required>
+                    <input type="text" name="license_plate" id="license_plate" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="vin_num">VIN#:</label>
-                    <input type="number" name="vin_num" id="vin_num" class="form-control" required>
+                    <input type="text" name="vin_num" id="vin_num" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="category">Category:</label>
