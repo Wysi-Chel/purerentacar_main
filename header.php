@@ -46,7 +46,7 @@
                     <div class="de-flex-col">
                         <div class="menu_side_area">
                             <a href="contact_us.php" class="btn-main">Contact Us</a>
-                            <span id="menu-btn"></span>
+                            <span id="menu-btn" aria-label="Toggle navigation"></span>
                         </div>
                     </div>
                 </div>

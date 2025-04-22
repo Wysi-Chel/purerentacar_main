@@ -1025,6 +1025,8 @@ header:not(.header-mobile) #mainmenu>li:hover ul.mega {
     color: #fff;
     margin-top: 5px;
     margin-left: 20px;
+    border: none;
+    background: transparent; 
 }
 
 #menu-btn:before {
@@ -1034,7 +1036,7 @@ header:not(.header-mobile) #mainmenu>li:hover ul.mega {
 }
 
 #menu-btn:hover {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.8);
 }
 
 #menu-btn:hover:before {
@@ -1043,6 +1045,12 @@ header:not(.header-mobile) #mainmenu>li:hover ul.mega {
 
 .rtl #menu-btn {
     float: left;
+}
+
+@media (max-width: 991.98px) { /* Adjust breakpoint as needed */
+    #menu-btn {
+        display: block; /* Show on mobile */
+    }
 }
 
 header.header-mobile.header-light,

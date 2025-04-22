@@ -244,11 +244,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="category">Category:</label>
                     <select name="category" id="category" class="form-control" required>
                         <option value="">Select a Category</option>
-                        <option value="sedan">Sport</option>
-                        <option value="suv">SUV</option>
-                        <option value="truck">Sedan</option>
-                        <option value="coupe">Van</option>
-                        <option value="coupe">Pickup</option>
+                        <option value="Sport">Sport</option>
+                        <option value="SUV">SUV</option>
+                        <option value="Sedan">Sedan</option>
+                        <option value="Van">Van</option>
+                        <option value="Pickup">Pickup</option>
                     </select>
                 </div>
                 <!-- New Car Details -->

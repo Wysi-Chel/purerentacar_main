@@ -263,9 +263,9 @@ function generateTimeOptions()
                                     <?php if (!empty($car['drivers_license_image'])): ?>
                                         <img src="<?php echo $car['drivers_license_image']; ?>" alt="Driver's license" class="current-img">
                                     <?php else: ?>
-                                        <p>No driver's license image uploaded.</p>
+                                       
                                     <?php endif; ?>
-                                    <input type="file" class="form-control" name="drivers_license_image" id="drivers_license_image">
+                                    <input type="file" class="form-control" name="drivers_license_image" id="drivers_license_image" required>
                                     <small class="form-text text-muted">Accepted Formats: .jpg, .jpeg, .png, .pdf</small>
                                 </div>
                                 <div class="mb-3">
@@ -273,9 +273,9 @@ function generateTimeOptions()
                                     <?php if (!empty($car['insurance_card_image'])): ?>
                                         <img src="<?php echo $car['insurance_card_image']; ?>" alt="Insurance Card Image" class="current-img">
                                     <?php else: ?>
-                                        <p>No insurance card image uploaded.</p>
+                                        
                                     <?php endif; ?>
-                                    <input type="file" class="form-control" name="insurance_card_image" id="insurance_card_image">
+                                    <input type="file" class="form-control" name="insurance_card_image" id="insurance_card_image" required>
                                     <small class="form-text text-muted">Accepted Formats: .jpg, .jpeg, .png, .pdf</small>
                                 </div>
                             </div>

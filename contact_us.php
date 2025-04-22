@@ -10,14 +10,12 @@
 
 <body>
     <div id="wrapper">
-        <!-- Page Preloader -->
         <div id="de-preloader"></div>
         <?php include 'header.php'; ?>
 
         <div class="no-bottom no-top" id="content">
             <div id="top"></div>
 
-            <!-- Subheader Section -->
             <section id="subheader" class="jarallax text-light">
                 <img src="images/background/subheader.jpg" class="jarallax-img" alt="">
                 <div class="center-y relative text-center">
@@ -31,7 +29,6 @@
                     </div>
                 </div>
             </section>
-            <!-- End Subheader -->
 
             <!-- Main Section -->
             <section aria-label="section">
@@ -49,7 +46,7 @@
                                     </div>
                                     <div class="col-md-4 mb10">
                                         <div class="field-set">
-                                            <input type="email" name="email" id="email" class="form-control" placeholder="Your Email" required>
+                                            <input type="text" name="email" id="email" class="form-control" placeholder="Your Email" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4 mb10">
@@ -80,7 +77,6 @@
                     </div>
                 </div>
             </section>
-            <!-- End Main Section -->
         </div>
         <!-- End Content -->
 

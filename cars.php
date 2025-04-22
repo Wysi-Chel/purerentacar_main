@@ -21,7 +21,6 @@ if (isset($_GET['year']) && !empty($_GET['year'])) {
 if (isset($_GET['category']) && !empty($_GET['category'])) {
   $category = $conn->real_escape_string($_GET['category']);
   if (strtolower($category) === 'available') {
-      // Filter by status instead of category
       $whereClauses[] = "c.status = 'Available'";
   } else {
       $whereClauses[] = "c.category = '$category'";
@@ -38,10 +37,12 @@ if (isset($_GET['max_price']) && is_numeric($_GET['max_price'])) {
     $whereClauses[] = "c.daily_rate <= $max_price";
 }
 
+$whereClauses[] = "c.status = 'Available'";
+
 $whereSQL = "";
 if (count($whereClauses) > 0) {
     $whereSQL = " WHERE " . implode(" AND ", $whereClauses);
-}
+} 
 
 $sql = "SELECT c.* FROM cars c" . $whereSQL;
 $result = $conn->query($sql);
