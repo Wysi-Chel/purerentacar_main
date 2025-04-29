@@ -227,7 +227,7 @@
                                             Do you deliver the car to my location?
                                         </div>
                                         <div class="accordion-section-content" id="accordion-b-7">
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime at corporis reprehenderit saepe hic? Doloribus sed eligendi maiores magni tempora dicta quae facilis sit sunt quod. Natus aut ratione quo.</p>
+                                            <p>Yes, we do deliveries to your specified location with equivalent fees.</p>
                                         </div>
                                         
                                     </div>

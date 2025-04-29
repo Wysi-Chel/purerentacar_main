@@ -395,7 +395,7 @@ function generateTimeOptions()
                         });
                     }
 
-                    // Function to disable previous dates before the selected start date (pickup date)
+                    // Function to disable previous dates6 before the selected start date (pickup date)
                     function disablePreviousDates(startDate) {
                         const dateElements = document.querySelectorAll('.calendar__date');
                         dateElements.forEach(dateEl => {
